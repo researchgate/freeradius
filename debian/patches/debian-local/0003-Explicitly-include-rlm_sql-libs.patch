@@ -1,0 +1,85 @@
+From 57091ebd1d6415b477b801fb572d3d8e8ea183fa Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Mon, 29 Sep 2014 20:00:09 -0400
+Subject: Explicitly include rlm_sql libs
+
+Patch-Category: debian-local
+---
+ src/modules/rlm_sql/drivers/rlm_sql_iodbc/Makefile.in      | 1 +
+ src/modules/rlm_sql/drivers/rlm_sql_mysql/Makefile.in      | 1 +
+ src/modules/rlm_sql/drivers/rlm_sql_postgresql/Makefile.in | 1 +
+ src/modules/rlm_sql_log/Makefile                           | 1 +
+ src/modules/rlm_sqlcounter/Makefile.in                     | 2 +-
+ src/modules/rlm_sqlippool/Makefile.in                      | 2 +-
+ 6 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/src/modules/rlm_sql/drivers/rlm_sql_iodbc/Makefile.in b/src/modules/rlm_sql/drivers/rlm_sql_iodbc/Makefile.in
+index 64af56d..f77876d 100644
+--- a/src/modules/rlm_sql/drivers/rlm_sql_iodbc/Makefile.in
++++ b/src/modules/rlm_sql/drivers/rlm_sql_iodbc/Makefile.in
+@@ -4,5 +4,6 @@ TARGET         = @targetname@
+ SRCS           = sql_iodbc.c
+ RLM_SQL_CFLAGS = @sql_iodbc_cflags@
+ RLM_SQL_LIBS   = @sql_iodbc_ldflags@
++RLM_LIBS      += $(top_builddir)/src/modules/rlm_sql/.libs/rlm_sql.la
+ 
+ include ../rules.mak
+diff --git a/src/modules/rlm_sql/drivers/rlm_sql_mysql/Makefile.in b/src/modules/rlm_sql/drivers/rlm_sql_mysql/Makefile.in
+index a17bb3d..632e837 100644
+--- a/src/modules/rlm_sql/drivers/rlm_sql_mysql/Makefile.in
++++ b/src/modules/rlm_sql/drivers/rlm_sql_mysql/Makefile.in
+@@ -4,5 +4,6 @@ TARGET         = @targetname@
+ SRCS           = sql_mysql.c
+ RLM_SQL_CFLAGS = @sql_mysql_cflags@
+ RLM_SQL_LIBS   = @sql_mysql_ldflags@
++RLM_LIBS       += $(top_builddir)/src/modules/rlm_sql/.libs/rlm_sql.la
+ 
+ include ../rules.mak
+diff --git a/src/modules/rlm_sql/drivers/rlm_sql_postgresql/Makefile.in b/src/modules/rlm_sql/drivers/rlm_sql_postgresql/Makefile.in
+index e564426..5e8adb2 100644
+--- a/src/modules/rlm_sql/drivers/rlm_sql_postgresql/Makefile.in
++++ b/src/modules/rlm_sql/drivers/rlm_sql_postgresql/Makefile.in
+@@ -4,5 +4,6 @@ TARGET		= @targetname@
+ SRCS		= sql_postgresql.c
+ RLM_SQL_CFLAGS	= @postgresql_cflags@
+ RLM_SQL_LIBS	= @postgresql_ldflags@
++RLM_LIBS       += $(top_builddir)/src/modules/rlm_sql/.libs/rlm_sql.la
+ 
+ include ../rules.mak
+diff --git a/src/modules/rlm_sql_log/Makefile b/src/modules/rlm_sql_log/Makefile
+index e09feda..cfda9e7 100644
+--- a/src/modules/rlm_sql_log/Makefile
++++ b/src/modules/rlm_sql_log/Makefile
+@@ -6,5 +6,6 @@
+ 
+ TARGET      = rlm_sql_log
+ SRCS        = rlm_sql_log.c
++RLM_LIBS    += $(top_builddir)/src/modules/rlm_sql/.libs/rlm_sql.la
+ 
+ include ../rules.mak
+diff --git a/src/modules/rlm_sqlcounter/Makefile.in b/src/modules/rlm_sqlcounter/Makefile.in
+index bd853f0..dc57c7c 100644
+--- a/src/modules/rlm_sqlcounter/Makefile.in
++++ b/src/modules/rlm_sqlcounter/Makefile.in
+@@ -6,7 +6,7 @@ TARGET      = @targetname@
+ SRCS        = rlm_sqlcounter.c
+ HEADERS     =
+ RLM_CFLAGS  = @sqlcounter_cflags@
+-RLM_LIBS    = @sqlcounter_ldflags@
++RLM_LIBS    = @sqlcounter_ldflags@ $(top_builddir)/src/modules/rlm_sql/.libs/rlm_sql.la
+ RLM_INSTALL =
+ 
+ include ../rules.mak
+diff --git a/src/modules/rlm_sqlippool/Makefile.in b/src/modules/rlm_sqlippool/Makefile.in
+index af28710..3aa52c0 100644
+--- a/src/modules/rlm_sqlippool/Makefile.in
++++ b/src/modules/rlm_sqlippool/Makefile.in
+@@ -8,7 +8,7 @@ TARGET      = @targetname@
+ SRCS        = rlm_sqlippool.c
+ HEADERS     = $(top_builddir)/src/modules/rlm_sql/rlm_sql.h
+ RLM_CFLAGS  = -I$(top_builddir)/src/modules/rlm_sql
+-RLM_LIBS    =
++RLM_LIBS    += $(top_builddir)/src/modules/rlm_sql/.libs/rlm_sql.la
+ RLM_INSTALL =
+ 
+ include ../rules.mak

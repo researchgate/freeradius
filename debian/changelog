@@ -1,77 +1,201 @@
-freeradius (2.2.8+git) unstable; urgency=medium
+freeradius (2.2.8+dfsg-0.1) unstable; urgency=medium
+
+  * Non-maintainer Upload
+  * New Upstream version
+    * Add myself to uploaders
+  * Include ubuntu multiarch python patch
+  * Include ubuntu autotests (Thanks probably to
+    yolanda.robla@canonical.com, marc.deslauriers@ubuntu.com)
+  * New standards version; no changes
+
+ -- Sam Hartman <hartmans@debian.org>  Mon, 14 Sep 2015 07:27:09 -0400
+
+freeradius (2.2.5+dfsg-0.2) unstable; urgency=high
+
+  * Disable OpenSSL version check; Debian will maintain ABI stability or
+    change the soname, Closes: #765871
+    * Non-Maintainer Upload
+
+ -- Sam Hartman <hartmans@debian.org>  Thu, 23 Oct 2014 21:45:36 -0400
+
+freeradius (2.2.5+dfsg-0.1) unstable; urgency=medium
+
+  * Non-maintainer Upload
+    * Remove remnants of freeradius-dilaupadmin, Closes: #669741
+    * Permit creating freerad to fail because user might exist, Closes: #661915
+    * Update to standards version 3.9.5, no changes
+  * New upstream version, Closes: #740857, #691770
+    - Include dictionary.mikrotik, Closes: #672200
+
+ -- Sam Hartman <hartmans@debian.org>  Tue, 30 Sep 2014 19:18:08 -0400
+
+freeradius (2.1.12+dfsg-1.3) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Remove freeradius-dialupadmin, Closes: #711486. I understand there's a
+    patch in the bug that could get this working.
+    However, it's been removed upstream for 3.x, my hope is to package
+    3.0.2 soon, and a PHP script that copies all the get/post data
+    into globals so as to administer an authentication server is more
+    scary than I choose to contemplate. 
+  * Add IODBC include directories, Thanks Maximiliano Curia
+    , Closes: #740060
+
+
+ -- Sam Hartman <hartmans@debian.org>  Wed, 12 Mar 2014 20:36:19 -0400
+
+freeradius (2.1.12+dfsg-1.2) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Fix expired passwords when using the unix module (CVE-2011-4966,
+    Closes: #694407).
+
+ -- Kees Cook <kees@debian.org>  Sun, 16 Dec 2012 12:44:35 -0800
+
+freeradius (2.1.12+dfsg-1.1) unstable; urgency=high
+
+  * Non-maintainer upload by the Security Team.
+  * Fix pre-authentication buffer overflow in EAP handling
+    (CVE-2012-3547; Closes: #687175, #687178).
+
+ -- Nico Golde <nion@debian.org>  Tue, 11 Sep 2012 19:38:02 +0200
+
+freeradius (2.1.12+dfsg-1) unstable; urgency=low
+
+  * New upstream version, closes: #675698.
+    + Fix for a segmentation fault in rlm_eap, closes: #645998.
+  * Backport upstream commits to fix our bug reports:
+    + Fix for a crash on SIGHUP in config file handling,
+      378f2517357f11f9900c3799c6a469ee2fda7bdf
+      ab73a3debf93492804e7af253ba45a7b017a18d1
+      closes: #606450
+    + Fix for a segmentation fault in radmin through environment variables,
+      ce1bb741773b253c4ccf24accccf6305e202a322
+      516dbaabf0ea80d0ff0643dc2ae9a10c4d31494c
+      closes: #662194
+  * Use dpkg-buildflags for configure, by Moritz Muehlenhoff, closes: #657838.
+  * Mark rlm_jradius as stable to get it to build and ship, closes: #599067.
+  * Switch to dpkg-source 3.0 (quilt) format.
+  * Polished packaging a wee bit and updated the Standards-Version.
+
+ -- Josip Rodin <joy-packages@debian.org>  Fri, 29 Jun 2012 14:32:33 +0200
+
+freeradius (2.1.10+dfsg-3.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix "FTBFS: libfreeradius-radius-2.1.10.so: could not read symbols:
+    Invalid operation": adjust target dependencies in debian/rules: make sure
+    the patch target is not only called for build but also for
+    build-{arch,indep}. (Closes: #666311)
+
+ -- gregor herrmann <gregoa@debian.org>  Wed, 02 May 2012 16:58:57 +0200
+
+freeradius (2.1.10+dfsg-3) unstable; urgency=low
+
+  * Fixed the silly error that rendered previous attempts to use the
+    right libtool functions useless, hopefully finally closes: #416266.
+  * Link radeapclient with libradius to fix linking with binutils-gold,
+    closes: #553387.
+  * Fix the debug mode crashing when home server doesn't respond to
+    a proxied request. Dmitry Borodaenko cherry-picked upstream commits
+    540a0515de93d99ef45f97b9114185f159587b51 and
+    ab972f1f9b724fc0b71e6ca726078c92ad26bc6b, thanks, closes: #609870.
+  * Fixed udpfromto IPv6 breakage because of broken offsetof tests,
+    backported upstream b4f0c7ed4dc9811d8dfa982540ed8cb721cc854a
+    (one minor change necessary) as well as
+    655f0786d60fe02440763df69b1aaf5110706690, as well as the simple
+    IPV6_RECVPKTINFO change, hopefully it activates all the right
+    modern IPv6 functions and closes: #606866.
+
+ -- Josip Rodin <joy-packages@debian.org>  Thu, 05 May 2011 23:50:20 +0200
+
+freeradius (2.1.10+dfsg-2) unstable; urgency=medium
+
+  * The zombie period start time variable mistakenly got set to a random
+    value because of an upstream typo. Cherry-picked upstream commit
+    7b7dff7724721f8af5fd163f2292d427a869992d into a Debian patch,
+    requested for squeeze in #600465.
+  * Since 2.1.9, the daemon stopped reopening the default radius.log file
+    constantly, which means the default logrotate setup breaks the default
+    logging. D'oh. We now have to send SIGHUP to the daemon as a postrotate
+    action, which makes it reopen log files and continue normally.
+    * Added delaycompress to the logrotate options, just to be on the safe
+      side.
+    * Added a reload action into the init script accordingly, so that the
+      right pidfile is picked up (one that can be overridden by the admin
+      in /etc/default/freeradius, available since the last release).
+    * Called reload from the postrotate section, closes: #602815.
+    * However, the latter signal also makes the server re-read configuration
+      files, but unlike the initial server start, this all happens under
+      the unprivileged user. That in turn means that if by any chance there
+      is any part of FR configuration that happens not to be readable by
+      group freerad (or whatever non-default is configured), the reload
+      will fail, effectively silently, as the log has been moved away. Gah.
+      So we have to make an effort to ensure that the configuration files
+      are still readable by that user, otherwise the reload fails and the
+      aforementioned bug is not fixed. The files seem to revert to
+      root:root upon conffile actions, at least that's what happened to me
+      and I think that was the cause. So, on upgrade, try to re-apply the
+      dpkg-statoverrides on our /etc/freeradius/* stuff, whatever they are,
+      under the assumption they will let the freerad group read config files
+      as is the initial setup. (I wish dpkg-statoverride --update $file
+      just did the right thing, but it doesn't, so there's a new local
+      function that does that.)
+    * While doing the latter, noticed that we were checking for directories
+      in dpkg-statoverride --list output with trailing slashes, but they
+      get output without it, so it was a no-op. Fixed the check by removing
+      the trailing slashes. Also then noticed that we were grepping --list
+      output, but it takes an optional glob pattern, so saved us that
+      pointless grep fork by using that facility, just as described in the
+      policy manual.
+    * force-reload switches from restart to reload, per policy 9.3.2.
+  * lenny backport needed also libltdl-dev (2.2.x) to build properly, rather
+    than libltdl3-dev, which is obsolete and doesn't make sense anyway.
+
+ -- Josip Rodin <joy-packages@debian.org>  Sat, 13 Nov 2010 15:21:30 +0100
+
+freeradius (2.1.10+dfsg-1) unstable; urgency=medium
+
+  * New upstream version, closes a bunch of reproducible SNAFUs,
+    including two tagged as security issues, CVE-2010-3696, CVE-2010-3697,
+    closes: #600176.
+  * Build-depend on newer Libtool because of lt_dladvise_init(), also
+    upstream now has a configure check so we no longer need a patch,
+    yet we still don't want the old behaviour. Noticed by John Morrissey,
+    closes: #584151.
+  * Added the /etc/default/freeradius file as suggested by
+    Rudy Gevaert and Matthew Newton, closes: #564716.
+  * Stop symlinking /dev/urandom into /etc/freeradius/certs/random,
+    it breaks grep -r in /etc. Instead, replace it inside eap.conf,
+    both in the new shipped conffile and in postinst.
+
+ -- Josip Rodin <joy-packages@debian.org>  Thu, 14 Oct 2010 21:51:51 +0200
+
+freeradius (2.1.9+dfsg-1) unstable; urgency=low
 
   * New upstream version.
+    + radclient (radtest) should now use IPv4 by default, closes: #569614.
+  * Depend on ca-certificates explicitly, closes: #569601.
+  * I mistook ca.pem for the locally selected acceptable CA, whereas that
+    actually just happens to mean DebConf.org CA, and we want the former
+    by default. That in turn is in /etc/ssl/certs/ca-certificates.crt.
+    Obviously later the users can trivially change this, but this looks
+    like a reasonably reliable default that doesn't involve a lot of magic
+    that can delay or break postinst invocations. In the future, eap.conf
+    will become modules/eap and this will not be so critical.
+  * The private_key_file = ${certdir}/server.pem default doesn't get along
+    with snakeoil, or common sense really (why would you keep a secret key
+    in the same file as the non-secret certificate?), and could have broken
+    upgrades if people accepted the conffile prompt, so adjusted the
+    default conffile too, and adjusted the postinst upgrade logic as well.
+  * Enable HAVE_LT_DLADVISE_INIT as it fixes the module symbol lookup
+    errors from additional libraries, closes: #416266.
+  * Explicate source format as 1.0.
+  * Add ${misc:Depends} to all binary packages.
+  * Update standards version to 3.8.4, no changes necessary.
 
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Thu, 30 April 2014 11:35:00 +0100
+ -- Josip Rodin <joy-packages@debian.org>  Sun, 30 May 2010 12:48:55 +0200
 
-freeradius (2.2.7+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Tue, 18 Nov 2014 11:35:00 +0100
-
-freeradius (2.2.6+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Tue, 18 Nov 2014 11:34:00 +0100
-
-freeradius (2.2.5+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Thu, 20 Mar 2013 11:34:00 +0100
-
-freeradius (2.2.4+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Mon, 16 Dec 2013 12:43:49 +0100
-
-freeradius (2.2.3+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Mon, 16 Dec 2013 12:43:00 +0100
-
-freeradius (2.2.2+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Alan DeKok <aland@freeradius.org>  Wed, 30 Oct 2013 9:30:00 -0400
-
-freeradius (2.2.1+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Arran Cudbard-Bell <a.cudbardb@freeradius.org>  Mon, 01 Oct 2012 17:13:00 +0100
-
-freeradius (2.2.0+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Alan DeKok <aland@freeradius.org>  Sat, 18 Jan 2012 10:45:03 +0100
-
-freeradius (2.1.12+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Alan DeKok <aland@freeradius.org>  Sat, 18 Jan 2012 10:45:03 +0100
-
-freeradius (2.1.11+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Alan DeKok <aland@freeradius.org>  Sat, 18 Jun 2011 10:45:03 +0100
-
-freeradius (2.1.10+git) unstable; urgency=medium
-
-  * New upstream version.
-
- -- Alan DeKok <aland@freeradius.org>  Sat, 02 Jan 2010 20:22:47 +0100
-
-  * New upstream version.
-  
 freeradius (2.1.8+dfsg-1) unstable; urgency=medium
 
   * New upstream version.

@@ -1,0 +1,21 @@
+From b72e1d985e709e4c5fd7355747cde8697e665b44 Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Thu, 18 Sep 2014 15:55:52 -0400
+Subject: jradius.diff
+
+---
+ src/modules/stable | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/src/modules/stable b/src/modules/stable
+index f0c5422..27908f2 100644
+--- a/src/modules/stable
++++ b/src/modules/stable
+@@ -43,3 +43,7 @@ rlm_sqlippool
+ rlm_sql_log
+ rlm_unix
+ rlm_wimax
++rlm_policy
++rlm_dynamic_clients
++rlm_replicate
++rlm_jradius

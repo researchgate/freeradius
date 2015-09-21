@@ -1,0 +1,34 @@
+#!/bin/bash
+#-------------------------
+# Testing client utilities
+#-------------------------
+set -e
+
+HELP_CLIENTS=('radsniff')
+for client in "${HELP_CLIENTS[@]}"; do
+    RET=$($client -h 2>&1 > /dev/null)
+
+    if [[ $RET ]]; then
+        echo "ERROR, ${client} is not running"
+    fi
+done
+
+VERSION_CLIENTS=('radclient' 'radeapclient')
+for client in "${VERSION_CLIENTS[@]}"; do
+    RET=$($client -v 2>&1 > /dev/null)
+
+    if [[ $RET ]]; then
+        echo "ERROR, ${client} is not running"
+        exit $RET
+    fi
+done
+
+ALONE_CLIENTS=('radlast')
+for client in "${ALONE_CLIENTS[@]}"; do
+    RET=$($client 2>&1 > /dev/null)
+
+    if [[ $RET ]]; then
+        echo "ERROR, ${client} is not running"
+        exit $RET
+    fi
+done

@@ -1,6 +1,20 @@
---- old/Make.inc.in
-+++ new/Make.inc.in
-@@ -48,7 +48,7 @@
+From 59851f30319961e6abaa3349494a3464e1052c7d Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Mon, 29 Sep 2014 19:58:24 -0400
+Subject: Rename radius to freeradius
+
+Patch-Category: debian-local
+---
+ Make.inc.in                | 2 +-
+ raddb/radiusd.conf.in      | 6 +++---
+ scripts/freeradius.monitrc | 6 +++---
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/Make.inc.in b/Make.inc.in
+index 5464b2e..d3ade3b 100644
+--- a/Make.inc.in
++++ b/Make.inc.in
+@@ -50,7 +50,7 @@ LDFLAGS		= @LDFLAGS@
  
  LOGDIR		= ${logdir}
  RADDBDIR	= ${raddbdir}
@@ -8,19 +22,21 @@
 +RUNDIR		= ${localstatedir}/run/freeradius
  SBINDIR		= ${sbindir}
  RADIR		= ${radacctdir}
+ LIBRADIUS	= $(top_builddir)/src/lib/$(LIBPREFIX)freeradius-radius.la
+diff --git a/raddb/radiusd.conf.in b/raddb/radiusd.conf.in
+index 81a565e..b71a76b 100644
+--- a/raddb/radiusd.conf.in
++++ b/raddb/radiusd.conf.in
+@@ -62,7 +62,7 @@ radacctdir = @radacctdir@
  
---- old/raddb/radiusd.conf.in
-+++ new/raddb/radiusd.conf.in
-@@ -62,7 +62,7 @@
-
  #
  #  name of the running server.  See also the "-n" command-line option.
 -name = radiusd
 +name = freeradius
-
+ 
  #  Location of config and logfiles.
  confdir = ${raddbdir}
-@@ -164,8 +164,8 @@
+@@ -164,8 +164,8 @@ pidfile = ${run_dir}/${name}.pid
  #  It will join all groups where "user" is a member.  This can allow
  #  for some finer-grained access controls.
  #
@@ -28,9 +44,11 @@
 -#group = radius
 +user = freerad
 +group = freerad
-
- #  max_request_time: The maximum time (in seconds) to handle a request.
+ 
+ #  panic_action: Command to execute if the server dies unexpectedly.
  #
+diff --git a/scripts/freeradius.monitrc b/scripts/freeradius.monitrc
+index 96433d6..fef5a9c 100644
 --- a/scripts/freeradius.monitrc
 +++ b/scripts/freeradius.monitrc
 @@ -8,9 +8,9 @@
@@ -46,5 +64,3 @@
     if failed host 127.0.0.1 port 1812 type udp protocol radius secret testing123 then alert
     if failed host 127.0.0.1 port 1813 type udp protocol radius secret testing123 then alert
     if cpu > 95% for 2 cycles then alert
-
-

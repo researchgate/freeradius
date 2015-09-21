@@ -1,0 +1,6 @@
+#!/bin/bash
+#-------------------
+# Testing freeradius
+#-------------------
+set -e
+python `dirname $0`/test-freeradius.py 2>&1

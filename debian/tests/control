@@ -1,0 +1,3 @@
+Tests: freeradius daemon clients
+Depends: freeradius, freeradius-utils, python, lsb-release
+Restrictions: needs-root

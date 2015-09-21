@@ -1,0 +1,80 @@
+From 1b4e8e5751c417ba9d3788d264e76aba4f6baa12 Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Thu, 23 Oct 2014 21:44:03 -0400
+Subject: version.c: disable openssl version check
+
+For Debian we don't want to require that the built OpenSSL be the same
+as the linked OpenSSL.  Debian will be responsible for changing the
+soname if the ABI changes.  The version check causes the freeradius
+packages to fail whenever a new OpenSSL is built.
+
+Patch-Category: debian-local
+---
+ src/main/version.c | 45 +++++++--------------------------------------
+ 1 file changed, 7 insertions(+), 38 deletions(-)
+
+diff --git a/src/main/version.c b/src/main/version.c
+index c113467..ce66078 100644
+--- a/src/main/version.c
++++ b/src/main/version.c
+@@ -58,53 +58,22 @@ const char *ssl_version()
+  * Where status >= 0 && < 10 means beta, and status 10 means release.
+  *
+  * Startup check for whether the linked version of OpenSSL matches the
+- * version the server was built against.
++ * version the server was built against.  As a special Debian patch,
++ * always return success; we trust packagers to maintain the ABI or
++ * change the soname, and we don't want to break on OpenSSL security updates.
+  *
+  * @return 0 if ok, else -1
+  */
+ #if defined(HAVE_OPENSSL_CRYPTO_H) && defined(ENABLE_OPENSSL_VERSION_CHECK)
+ int ssl_check_version(int allow_vulnerable)
+ {
+-	long ssl_linked;
+-
+-	ssl_linked = SSLeay();
+-
+ 	/*
+-	 *	Status mismatch always triggers error.
++	 *	Initialize the library before calling any library
++	 *	functions.
+ 	 */
+-	if ((ssl_linked & 0x00000000f) != (ssl_built & 0x00000000f)) {
+-	mismatch:
+-		radlog(L_ERR, "libssl version mismatch.  built: %lx linked: %lx",
+-		       (unsigned long) ssl_built, (unsigned long) ssl_linked);
++	SSL_library_init();
++	SSL_load_error_strings();
+ 
+-		return -1;
+-	}
+-
+-	/*
+-	 *	Use the OpenSSH approach and relax fix checks after version
+-	 *	1.0.0 and only allow moving backwards within a patch
+-	 *	series.
+-	 */
+-	if (ssl_built & 0xff) {
+-		if ((ssl_built & 0xffff) != (ssl_linked & 0xffff) ||
+-		    (ssl_built & 0x0000ff) > (ssl_linked & 0x0000ff)) goto mismatch;
+-	/*
+-	 *	Before 1.0.0 we require the same major minor and fix version
+-	 *	and ignore the patch number.
+-	 */
+-	} else if ((ssl_built & 0xffffff) != (ssl_linked & 0xffffff)) goto mismatch;
+-
+-	if (!allow_vulnerable) {
+-		/* Check for bad versions */
+-		/* 1.0.1 - 1.0.1f CVE-2014-0160 http://heartbleed.com */
+-		if ((ssl_linked >= 0x010001000) && (ssl_linked < 0x010001070)) {
+-			radlog(L_ERR, "Refusing to start with libssl version %s (in range 1.0.1 - 1.0.1f).  "
+-			      "Security advisory CVE-2014-0160 (Heartbleed)", ssl_version());
+-			radlog(L_ERR, "For more information see http://heartbleed.com");
+-
+-			return -1;
+-		}
+-	}
+ 
+ 	return 0;
+ }

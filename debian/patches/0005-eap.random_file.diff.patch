@@ -1,0 +1,32 @@
+From 6129d0c41c64a13522ef9d75b4b2ffde0cf0be53 Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Thu, 18 Sep 2014 15:55:51 -0400
+Subject: eap.random_file.diff
+
+---
+ raddb/eap.conf | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
+
+diff --git a/raddb/eap.conf b/raddb/eap.conf
+index 3ae75fb..345b8d6 100644
+--- a/raddb/eap.conf
++++ b/raddb/eap.conf
+@@ -194,17 +194,8 @@
+ 			#  	openssl dhparam -out certs/dh 1024
+ 			#
+ 			dh_file = ${certdir}/dh
++			random_file = /dev/urandom
+ 
+-			#
+-			#  If your system doesn't have /dev/urandom,
+-			#  you will need to create this file, and
+-			#  periodically change its contents.
+-			#
+-			#  For security reasons, FreeRADIUS doesn't
+-			#  write to files in its configuration
+-			#  directory.
+-			#
+-#			random_file = ${certdir}/random
+ 
+ 			#
+ 			#  This can never exceed the size of a RADIUS

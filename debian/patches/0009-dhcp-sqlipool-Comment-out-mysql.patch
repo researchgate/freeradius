@@ -1,3 +1,13 @@
+From f39ef7f317a49c4e959bed7e9d954e473f49d602 Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Wed, 1 Oct 2014 16:38:16 -0400
+Subject: dhcp sqlipool: Comment out mysql
+
+So freeradius does not depend on freeradius-mysql
+---
+ raddb/modules/dhcp_sqlippool | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
 diff --git a/raddb/modules/dhcp_sqlippool b/raddb/modules/dhcp_sqlippool
 index 39358b2..2a29daf 100644
 --- a/raddb/modules/dhcp_sqlippool

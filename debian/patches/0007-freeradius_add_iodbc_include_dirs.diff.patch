@@ -1,0 +1,37 @@
+From 1a54c3fec5a118d83312b5f352d4c65bcc9d6be5 Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Thu, 18 Sep 2014 15:55:57 -0400
+Subject: freeradius_add_iodbc_include_dirs.diff
+
+Patch to add include directories from  Maximiliano Curia
+---
+ src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure    | 2 +-
+ src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure.in | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure b/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure
+index 29728a7..7e394db 100755
+--- a/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure
++++ b/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure
+@@ -2862,7 +2862,7 @@ fi
+ 		fail="$fail libiodbc"
+ 	fi
+ 
+-		smart_try_dir="$iodbc_include_dir /usr/local/iodbc/include"
++		smart_try_dir="$iodbc_include_dir /usr/include/iodbc /usr/local/iodbc/include"
+ 
+ 
+ ac_safe=`echo "isql.h" | sed 'y%./+-%__pm%'`
+diff --git a/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure.in b/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure.in
+index ab29a81..f525f98 100644
+--- a/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure.in
++++ b/src/modules/rlm_sql/drivers/rlm_sql_iodbc/configure.in
+@@ -64,7 +64,7 @@ if test x$with_[]modname != xno; then
+ 	fi
+ 
+ 	dnl Check for isql.h
+-	smart_try_dir="$iodbc_include_dir /usr/local/iodbc/include"
++	smart_try_dir="$iodbc_include_dir /usr/include/iodbc /usr/local/iodbc/include"
+ 	FR_SMART_CHECK_INCLUDE(isql.h)
+ 	if test "x$ac_cv_header_isql_h" != xyes; then
+ 		fail="$fail isql.h"

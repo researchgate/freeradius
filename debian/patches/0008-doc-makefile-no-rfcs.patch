@@ -1,0 +1,23 @@
+From d478dd68a4f02ebd2236313c1fec3d8170142843 Mon Sep 17 00:00:00 2001
+From: Sam Hartman <hartmans@debian.org>
+Date: Tue, 30 Sep 2014 22:43:49 -0400
+Subject: doc/makefile: no rfcs
+
+Remove rfcs from build
+---
+ doc/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/doc/Makefile b/doc/Makefile
+index aaf7675..38bd934 100644
+--- a/doc/Makefile
++++ b/doc/Makefile
+@@ -6,7 +6,7 @@
+ 
+ include ../Make.inc
+ 
+-SUBDIRS		= examples rfc
++SUBDIRS		= examples 
+ WHAT_TO_MAKE	= all
+ 
+ RST_FILES := $(wildcard *.rst)
