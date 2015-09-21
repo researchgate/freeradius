@@ -1,3 +1,9 @@
+freeradius (2.2.8+dfsg-0.1+rg1) trusty; urgency=medium
+
+  * Roll ubuntu release
+
+ -- Michael Renner <michael.renner@amd.co.at>  Mon, 21 Sep 2015 13:51:22 +0200
+
 freeradius (2.2.8+dfsg-0.1) unstable; urgency=medium
 
   * Non-maintainer Upload
