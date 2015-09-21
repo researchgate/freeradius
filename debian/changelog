@@ -1,3 +1,10 @@
+freeradius (2.2.8+gita79e943-rg1) trusty; urgency=medium
+
+  * Build 2.x.x including a79e943d49b3a9cad3c7bc2ff0fe618bc43192b5 to fix EAP-MSCHAP2 issues
+    * see https://github.com/FreeRADIUS/freeradius-server/issues/1206 for discussion
+
+ -- Michael Renner <michael.renner@amd.co.at>  Mon, 21 Sep 2015 16:06:18 +0200
+
 freeradius (2.2.8+dfsg-0.1+rg1) trusty; urgency=medium
 
   * Roll ubuntu release
