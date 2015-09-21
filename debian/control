@@ -2,7 +2,7 @@ Source: freeradius
 Build-Depends: debhelper (>= 7.0.50~),
  dpkg-dev (>= 1.13.19),
  autotools-dev,
- libtool (>= 2.2), libtool-bin, 
+ libtool (>= 2.2),
  libltdl-dev (>= 2.2),
  libssl-dev,
  libpam0g-dev,
